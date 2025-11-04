@@ -31,4 +31,9 @@ class Utils {
         var_dump($dados);
         echo "</pre>";
     }
+
+    public static function redirecionarPara(string $destino):void {
+        header("location:".$destino);
+		exit;
+    }
 }
