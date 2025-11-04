@@ -32,4 +32,4 @@ class Conecta
 }
 
 // Teste de conexão
-Conecta::getConexao();
+// Conecta::getConexao();
