@@ -1,6 +1,21 @@
 <?php 
-require_once "../includes/cabecalho-admin.php";
+require_once "../src/Database/Conecta.php";
+require_once "../src/Services/UsuarioServico.php";
+require_once "../src/Helpers/Utils.php";
 
+// Inicialização
+$erro = null;
+$usuarios = [];
+$usuarioServico = new UsuarioServico();
+
+try {
+	$usuarios = $usuarioServico->buscar();
+	//Utils::dump($usuarios);
+} catch (Throwable $e) {
+	$erro = "Erro ao buscar usuários. <br>".$e->getMessage();
+}
+
+require_once "../includes/cabecalho-admin.php";
 ?>
 
 
@@ -8,6 +23,10 @@ require_once "../includes/cabecalho-admin.php";
 	<article class="col-12 bg-white rounded shadow my-1 py-4">
 		
 		<h2 class="text-center">Usuários <span class="badge bg-dark">X</span></h2>
+
+		<?php if ($erro): ?>
+			<p class="alert alert-danger text-center"> <?= $erro ?> </p>
+		<?php endif; ?>
 
 		<p class="text-center mt-5">
 			<a class="btn btn-primary" href="usuario-insere.php">
