@@ -48,23 +48,24 @@ require_once "../includes/cabecalho-admin.php";
 
 				<tbody>
 
-				
+<?php foreach( $usuarios as $usuario ): ?>
 					<tr>
-						<td> nome do usuário... </td>
-						<td> email do usuário... </td>
-						<td> tipo do usuário... </td>
+						<td> <?= $usuario['nome'] ?> </td>
+						<td> <?= $usuario['email'] ?> </td>
+						<td> <?= $usuario['tipo'] ?> </td>
 						<td class="text-center">
-							<a class="btn btn-warning" 
-							href="usuario-atualiza.php">
-							<i class="bi bi-pencil"></i> Atualizar
-							</a>
-						
-							<a class="btn btn-danger excluir" 
-							href="usuario-exclui.php">
-							<i class="bi bi-trash"></i> Excluir
-							</a>
+	<a class="btn btn-warning" 
+	href="usuario-atualiza.php?id=<?=$usuario['id']?>">
+	<i class="bi bi-pencil"></i> Atualizar
+	</a>
+
+	<a class="btn btn-danger excluir" 
+	href="usuario-exclui.php?id=<?=$usuario['id']?>">
+	<i class="bi bi-trash"></i> Excluir
+	</a>
 						</td>
 					</tr>
+<?php endforeach; ?>					
 				
 
 				</tbody>                
