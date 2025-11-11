@@ -12,9 +12,12 @@ if(!$id) Utils::redirecionarPara("usuarios.php");
 // Inicialização de variável de erro e do objeto de serviço
 $erro = null;
 $usuarioServico = new UsuarioServico();
+$dadosDoUsuario = [];
 
 // Tente....
 try {
+	$dadosDoUsuario = $usuarioServico->buscarPorId($id);
+
 	// Executar o método de excluir passando o id de quem será excluído
 	$usuarioServico->excluir($id);
 } catch (Throwable $e) {
@@ -36,7 +39,9 @@ require_once "../includes/cabecalho-admin.php";
 		<?php if($erro): ?>
 			<p class="alert alert-danger text-center"><?=$erro?></p>
 		<?php else: ?>
-			<p class="alert alert-success text-center">Usuário excluído com sucesso</p>
+			<p class="alert alert-success text-center">
+			O usuário <b> <?=$dadosDoUsuario['nome']?> </b> foi excluído com 
+			sucesso</p>
 		<?php endif; ?>
 			
 		<!-- Link/Botão voltar -->
