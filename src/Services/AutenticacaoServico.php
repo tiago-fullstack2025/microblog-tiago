@@ -1,6 +1,5 @@
 <?php
 // src/Services/AutenticacaoServico.php
-require_once "src/Helpers/Utils.php";
 
 class AutenticacaoServico {
 
