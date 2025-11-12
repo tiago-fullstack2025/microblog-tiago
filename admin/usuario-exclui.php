@@ -4,6 +4,7 @@ require_once "../src/Services/UsuarioServico.php";
 require_once "../src/Helpers/Utils.php";
 require_once "../src/Services/AutenticacaoServico.php";
 AutenticacaoServico::exigirLogin();
+AutenticacaoServico::exigirAdmin();
 
 // Captura o valor do id via URL e sanitiza para garantir que é valor inteiro
 $id = Utils::sanitizar($_GET['id'], 'inteiro');
