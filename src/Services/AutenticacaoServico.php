@@ -35,4 +35,11 @@ class AutenticacaoServico {
         Utils::redirecionarPara("admin/");
     }
 
+
+    public static function logout():void {
+        self::iniciarSessao();
+        session_destroy();
+        Utils::redirecionarPara("../login.php?saiu");
+    }
+
 }
