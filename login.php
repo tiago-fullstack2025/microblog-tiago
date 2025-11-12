@@ -12,8 +12,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         Utils::redirecionarPara("login.php?campos_obrigatorios");
     } else {
         // Captura e-mail e senha
+        $email = Utils::sanitizar($_POST['email'], 'email');
+        $senha = $_POST['senha'];
 
         // Busca pelo usuário através do e-mail
+        $usuarioServico->buscarPorEmail($email);
 
         // Se não existir usuário/usuário inválido, redirecione para login.php
 
