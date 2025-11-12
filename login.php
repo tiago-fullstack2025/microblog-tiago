@@ -25,10 +25,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             // Caso contrário, verifique a senha
             if( password_verify( $senha, $dadosDoUsuario['senha'] ) ){
                 // Estando correta, faça o login
-                echo "senha correta, pode entrar";
+                AutenticacaoServico::login(
+                    $dadosDoUsuario['id'],
+                    $dadosDoUsuario['nome'],
+                    $dadosDoUsuario['tipo']
+                );
             } else{
                 // Estando errada, mantenha em login.php
-                echo "senha errada, vaza daqui!!";
+                Utils::redirecionarPara("login.php?dados_incorretos");
             }            
         }
     }
