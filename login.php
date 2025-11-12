@@ -22,13 +22,15 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         if(!$dadosDoUsuario){
             Utils::redirecionarPara("login.php?dados_incorretos");
         } else {
-            echo "Opa, encontrou! 😊";
+            // Caso contrário, verifique a senha
+            if( password_verify( $senha, $dadosDoUsuario['senha'] ) ){
+                // Estando correta, faça o login
+                echo "senha correta, pode entrar";
+            } else{
+                // Estando errada, mantenha em login.php
+                echo "senha errada, vaza daqui!!";
+            }            
         }
-
-        // Caso contrário, verifique a senha
-        // Estando correta, faça o login
-        // Estando errada, mantenha em login.php
-
     }
 
 }
