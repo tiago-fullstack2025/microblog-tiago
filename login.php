@@ -46,6 +46,8 @@ if(isset($_GET['acesso_proibido'])){
     $mensagem = "Preencha e-mail e senha";
 } elseif(isset($_GET['dados_incorretos'])){
     $mensagem = "Algo de errado não está certo";
+} elseif(isset($_GET['saiu'])){
+    $mensagem = "Você saiu do sistema";
 }
 
 require_once "includes/cabecalho.php";
