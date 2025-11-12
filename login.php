@@ -16,9 +16,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $senha = $_POST['senha'];
 
         // Busca pelo usuário através do e-mail
-        $usuarioServico->buscarPorEmail($email);
+        $dadosDoUsuario = $usuarioServico->buscarPorEmail($email);
 
         // Se não existir usuário/usuário inválido, redirecione para login.php
+        if(!$dadosDoUsuario){
+            Utils::redirecionarPara("login.php?dados_incorretos");
+        } else {
+            echo "Opa, encontrou! 😊";
+        }
 
         // Caso contrário, verifique a senha
         // Estando correta, faça o login
@@ -33,6 +38,8 @@ if(isset($_GET['acesso_proibido'])){
     $mensagem = "Você deve logar primeiro";
 } elseif(isset($_GET['campos_obrigatorios'])){
     $mensagem = "Preencha e-mail e senha";
+} elseif(isset($_GET['dados_incorretos'])){
+    $mensagem = "Algo de errado não está certo";
 }
 
 require_once "includes/cabecalho.php";
