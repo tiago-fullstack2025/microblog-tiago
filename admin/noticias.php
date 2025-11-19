@@ -56,9 +56,11 @@ require_once "../includes/cabecalho-admin.php";
 					<tr>
                         <td> <?= $noticia['titulo'] ?> </td>
                         <td> <?= Utils::formatarData($noticia['data']) ?> </td>
+
 						<?php if($_SESSION['tipo'] === 'admin'): ?>
 						<td> <?= $noticia['autor'] ?> </td>
 						<?php endif; ?>
+						
 						<td class="text-center">
 <a class="btn btn-warning" 
 href="noticia-atualiza.php?id=<?= $noticia['id'] ?>">
