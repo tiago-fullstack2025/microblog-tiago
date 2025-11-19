@@ -55,4 +55,29 @@ class NoticiaServico {
 
         $consulta->execute();
     }
+
+    // admin/noticia-atualiza.php
+    public function buscarPorId( 
+        int $idNoticia, string $tipoUsuario, int $idUsuario ): ?array {
+
+        /* Se for um admin... */
+        if($tipoUsuario === 'admin'){
+            /* Pode buscar/exibir qualquer notícia, bastando saber o id da noticia */
+            $sql = "SELECT * FROM noticias WHERE id = :id";
+        } else {
+            /* Senão, pode buscar/exibir qualquer notícia desde que seja dele/dela própria */
+            $sql = "SELECT * FROM noticias WHERE id = :id AND usuario_id = :usuario_id";
+        }
+
+        $consulta = $this->conexao->prepare($sql);
+        $consulta->bindValue(":id", $idNoticia); // fica fora do if pq é usado nos 2 sql
+
+        if($tipoUsuario !== 'admin'){
+            // Fica dentro do if pq é usado apenas no sql do editor
+            $consulta->bindValue(":usuario_id", $idUsuario);
+        }
+
+        $consulta->execute();
+        return $consulta->fetch() ?: null;
+    }
 }
