@@ -10,7 +10,7 @@ $noticias = [];
 $noticiaServico = new NoticiaServico();
 
 try {
-	$noticias = $noticiaServico->buscar();
+	$noticias = $noticiaServico->buscar($_SESSION['tipo'], $_SESSION['id']);
 } catch (Throwable $e) {
 	$erro = "Erro ao buscar notícias. <br>".$e->getMessage();
 }
@@ -42,20 +42,23 @@ require_once "../includes/cabecalho-admin.php";
 				<thead class="table-light">
 					<tr>
                         <th>Título</th>
-                        <th>Data</th>				
-						<th>Autor</th>
+                        <th>Data</th>
 
+						<?php if($_SESSION['tipo'] === 'admin'): ?>
+						<th>Autor</th>
+						<?php endif; ?>
+						
 						<th class="text-center" colspan="2">Operações</th>
 					</tr>
 				</thead>
-
 				<tbody>
-
 <?php foreach($noticias as $noticia):?>
 					<tr>
                         <td> <?= $noticia['titulo'] ?> </td>
                         <td> <?= Utils::formatarData($noticia['data']) ?> </td>
+						<?php if($_SESSION['tipo'] === 'admin'): ?>
 						<td> <?= $noticia['autor'] ?> </td>
+						<?php endif; ?>
 						<td class="text-center">
 <a class="btn btn-warning" 
 href="noticia-atualiza.php?id=<?= $noticia['id'] ?>">
