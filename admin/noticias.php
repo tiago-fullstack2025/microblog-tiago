@@ -11,7 +11,6 @@ $noticiaServico = new NoticiaServico();
 
 try {
 	$noticias = $noticiaServico->buscar();
-	// Utils::dump($noticias);
 } catch (Throwable $e) {
 	$erro = "Erro ao buscar notícias. <br>".$e->getMessage();
 }
@@ -23,7 +22,9 @@ require_once "../includes/cabecalho-admin.php";
 <div class="row">
 	<article class="col-12 bg-white rounded shadow my-1 py-4">
 		
-		<h2 class="text-center">Notícias <span class="badge bg-dark">X</span></h2>
+		<h2 class="text-center">Notícias <span class="badge bg-dark">
+			<?= count($noticias) ?>
+		</span></h2>
 
 		<?php if ($erro): ?>
 			<p class="alert alert-danger text-center"> <?= $erro ?> </p>
@@ -50,27 +51,25 @@ require_once "../includes/cabecalho-admin.php";
 
 				<tbody>
 
-
+<?php foreach($noticias as $noticia):?>
 					<tr>
-                        <td> Título... </td>
-                        <td> Data... </td>
-						<td> Autor... </td>
-						
-
+                        <td> <?= $noticia['titulo'] ?> </td>
+                        <td> <?= $noticia['data'] ?> </td>
+						<td> <?= $noticia['autor'] ?> </td>
 						<td class="text-center">
-							<a class="btn btn-warning" 
-							href="noticia-atualiza.php">
-							<i class="bi bi-pencil"></i> Atualizar
-							</a>
+<a class="btn btn-warning" 
+href="noticia-atualiza.php?id=<?= $noticia['id'] ?>">
+<i class="bi bi-pencil"></i> Atualizar
+</a>
 						</td>
 						<td>
-							<a class="btn btn-danger excluir" 
-							href="noticia-exclui.php">
-							<i class="bi bi-trash"></i> Excluir
-							</a>
+<a class="btn btn-danger excluir" 
+href="noticia-exclui.php?id=<?= $noticia['id'] ?>">
+<i class="bi bi-trash"></i> Excluir
+</a>
 						</td>
 					</tr>
-
+<?php endforeach; ?>
 				</tbody>                
 			</table>
 	</div>
