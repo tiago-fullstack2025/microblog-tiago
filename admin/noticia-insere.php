@@ -9,6 +9,28 @@ AutenticacaoServico::exigirLogin();
 $erro = null;
 $noticiaServico = new NoticiaServico();
 
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+	if( empty($_POST['titulo']) || empty($_POST['texto']) ||
+		empty($_FILES['imagem']) || empty($_POST['resumo']) ){
+		$erro = "Preencha todos os campos!";
+	} else {
+		try {
+			$titulo = Utils::sanitizar($_POST['titulo']);
+			$texto = Utils::sanitizar($_POST['texto']);
+			$resumo = Utils::sanitizar($_POST['resumo']);
+
+			// Capturando o arquivo enviado pelo input file no HTML
+			$arquivo = $_FILES['imagem'];
+			Utils::dump($arquivo);
+
+
+		} catch (Throwable $e) {
+			$erro = "Erro ao inserir notícia. <br>".$e->getMessage();
+		}
+	}
+}
+
 require_once "../includes/cabecalho-admin.php";
 ?>
 
@@ -19,6 +41,10 @@ require_once "../includes/cabecalho-admin.php";
 		<h2 class="text-center">
 			Inserir nova notícia
 		</h2>
+
+		<?php if ($erro): ?>
+			<p class="alert alert-danger text-center"> <?= $erro ?> </p>
+		<?php endif; ?>
 
 		<!-- Obs: é obrigatório colocar o atributo enctype com
 		 o valor multipart/form-data para que o seu formulário
