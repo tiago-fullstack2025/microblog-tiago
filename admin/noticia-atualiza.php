@@ -20,6 +20,44 @@ try {
     $erro = "Erro ao buscar dados da notícia.<br>".$e->getMessage();
 }
 
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+	if( empty($_POST['titulo']) || empty($_POST['texto']) || empty($_POST['resumo']) ){
+		$erro = "Preencha todos os campos!";
+	} else {
+		try {
+			$titulo = Utils::sanitizar($_POST['titulo']);
+			$texto = Utils::sanitizar($_POST['texto']);
+			$resumo = Utils::sanitizar($_POST['resumo']);
+			$arquivo = $_FILES['imagem'];
+
+            /* Se o usuário enviar uma NOVA imagem e se não tem erro no envio */
+            if( !empty($arquivo) && $arquivo['error'] === UPLOAD_ERR_OK ){
+                // Vamos fazer um novo upload
+                Utils::upload($arquivo);
+                
+                // E aproveitamos para pegar APENAS o nome e extensão do novo arquivo
+                $imagem = $arquivo['name'];
+            } else {
+                // Caso contrário, vamos manter a imagem que já existe
+                $imagem = $dados['imagem'];
+            }
+
+			// Criando um objeto para a nova notícia
+			$noticia = new Noticia($titulo, $texto, $resumo, $imagem, $_SESSION['id']);
+
+			// Inserindo a noticia
+			$noticiaServico->inserir($noticia);
+
+			// Redirecionando para noticias.php
+			Utils::redirecionarPara("noticias.php");
+		} catch (Throwable $e) {
+			$erro = "Erro ao inserir notícia. <br>".$e->getMessage();
+		}
+	}
+}
+
+
 require_once "../includes/cabecalho-admin.php";
 ?>
 
