@@ -44,15 +44,15 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             }
 
 			// Criando um objeto para a nova notícia
-			$noticia = new Noticia($titulo, $texto, $resumo, $imagem, $_SESSION['id']);
+			$noticia = new Noticia($titulo, $texto, $resumo, $imagem, $_SESSION['id'], $id);
 
-			// Inserindo a noticia
-			$noticiaServico->inserir($noticia);
+			// Atualizar a noticia passando ela e o tipo de usuário que está logado
+			$noticiaServico->atualizar($noticia, $_SESSION['tipo']);
 
 			// Redirecionando para noticias.php
 			Utils::redirecionarPara("noticias.php");
 		} catch (Throwable $e) {
-			$erro = "Erro ao inserir notícia. <br>".$e->getMessage();
+			$erro = "Erro ao atualizar notícia. <br>".$e->getMessage();
 		}
 	}
 }
