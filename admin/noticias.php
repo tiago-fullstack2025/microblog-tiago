@@ -82,6 +82,7 @@ href="noticia-exclui.php?id=<?= $noticia['id'] ?>">
 	</article>
 </div>
 
+<script src="../js/confirmar-exclusao.js"></script>
 
 <?php 
 require_once "../includes/rodape-admin.php";
