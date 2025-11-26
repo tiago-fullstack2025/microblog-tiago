@@ -1,16 +1,45 @@
 <?php
+require_once "src/Database/Conecta.php";
+require_once "src/Services/NoticiaServico.php";
+require_once "src/Helpers/Utils.php";
+
+$erro = null;
+$noticiaServico = new NoticiaServico();
+
+// Obter o valor que foi digitado no campo de busca
+$termo = Utils::sanitizar($_GET['busca']);
+
+try {
+    $dados = $noticiaServico->buscarNoticias($termo);
+    Utils::dump($dados);
+} catch (Throwable $e) {
+    $erro = "Erro ao fazer a busca no sistema.<br>".$e->getMessage();
+}
 
 require_once "includes/cabecalho.php";
 ?>
+        <?php if ($erro): ?>
+			<p class="alert alert-danger text-center"> <?= $erro ?> </p>
+		<?php endif; ?>
+
 
 <div class="row my-1 mx-md-n1">
     <h2 class="col-12 fs-5 fw-light">
         Você procurou por 
         <span class="badge bg-dark"> termo digitado... </span> e
-        obteve <span class="badge bg-info">  X </span> resultados
+        obteve <span class="badge bg-info">  <?= count($dados) ?> </span> resultados
     </h2>
     
+    <!-- EXERCÍCIOOOOOOOOOO (último 😊) -->
 
+    <?php if(count($dados) === 0): ?>
+        <!-- Se o resultado da busca for zero, faça aparecer: -->
+        <p class="alert alert-warning text-center">Nenhum resultado encontrado!</p>
+
+    <?php else: 
+            foreach ($dados as $noticia):
+    ?>
+    <!-- Caso contrário, faça aparecer a div abaixo (usando o foreach) -->
     <div class="col-12 my-1">
         <article class="card">
             <div class="card-body">
@@ -27,6 +56,11 @@ require_once "includes/cabecalho.php";
             </div>
         </article>
     </div>
+    <?php
+        endforeach;    
+    endif;
+    ?>
+
 
 </div>     
 
